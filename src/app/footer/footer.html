@@ -1,1 +1,46 @@
-<p>footer works!</p>
+<footer
+  class="w-full
+         bg-white/60 dark:bg-gray-900/60
+         backdrop-blur-md
+         border-t border-white/20 dark:border-gray-700/40
+         text-gray-700 dark:text-gray-300
+         py-8 px-6 mt-10">
+
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+
+    <!-- Logo + Description -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white">COURTFLOW</h2>
+      <p class="text-sm mt-3">
+        Manage volleyball teams, matches & training sessions effortlessly.
+      </p>
+    </div>
+
+    <!-- Navigation -->
+    <div>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Navigation</h3>
+      <ul class="space-y-2">
+        <li><a routerLink="/" class="hover:text-black dark:hover:text-white transition">Home</a></li>
+        <li><a routerLink="/teams" class="hover:text-black dark:hover:text-white transition">Teams</a></li>
+        <li><a routerLink="/matches" class="hover:text-black dark:hover:text-white transition">Matches</a></li>
+        <li><a routerLink="/profile" class="hover:text-black dark:hover:text-white transition">Profile</a></li>
+      </ul>
+    </div>
+
+    <!-- Social -->
+    <div>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Follow Us</h3>
+      <div class="flex space-x-4">
+        <a href="#" class="hover:text-black dark:hover:text-white transition">Instagram</a>
+        <a href="#" class="hover:text-black dark:hover:text-white transition">Twitter</a>
+        <a href="#" class="hover:text-black dark:hover:text-white transition">TikTok</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-10 border-t border-white/20 dark:border-gray-700/40 pt-4 text-center text-xs text-gray-500 dark:text-gray-400">
+    © {{ currentYear }} CourtFlow. All rights reserved.
+  </div>
+
+</footer>

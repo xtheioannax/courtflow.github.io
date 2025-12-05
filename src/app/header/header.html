@@ -1,1 +1,182 @@
-<p>header works!</p>
+<header
+  class="fixed top-0 left-0 w-full
+         bg-white/60 dark:bg-gray-900/60 backdrop-blur-md
+         border-b border-white/20 dark:border-gray-700/40
+         text-gray-700 dark:text-gray-200 z-50"
+  (mouseleave)="clearMenu()">
+
+  <!-- HEADER MAIN ROW -->
+  <div class="w-full px-10 py-3 flex items-center justify-between">
+
+    <!-- LEFT GROUP: Logo + Team Name -->
+    <div class="flex items-center gap-4">
+
+      <!-- Team logo -->
+      <ng-container *ngIf="teamLogoUrl; else noLogo">
+        <img
+          [src]="teamLogoUrl"
+          class="h-10 w-10 rounded-md object-cover border border-white/40 shadow-sm"
+          alt="Team logo"
+        />
+      </ng-container>
+
+      <!-- Placeholder logo -->
+      <ng-template #noLogo>
+        <div
+          class="h-10 w-10 rounded-md bg-indigo-500 text-white
+                 flex items-center justify-center font-bold shadow-sm">
+          CF
+        </div>
+      </ng-template>
+
+      <!-- Team name -->
+      <div class="flex flex-col">
+        <span class="text-lg font-semibold dark:text-white">{{ teamName }}</span>
+        <span class="text-xs text-gray-500 dark:text-gray-400">
+          CourtFlow Management
+        </span>
+      </div>
+
+    </div>
+
+    <!-- RIGHT GROUP: Navigation -->
+    <div class="flex items-center gap-8">
+
+      <!-- TEAMS -->
+      <button
+        class="px-2 py-1 font-medium hover:text-black dark:hover:text-white transition"
+        (mouseenter)="setActiveMenu('teams')">
+        Teams
+      </button>
+
+      <!-- MATCHES -->
+      <button
+        class="px-2 py-1 font-medium hover:text-black dark:hover:text-white transition"
+        (mouseenter)="setActiveMenu('matches')">
+        Matches
+      </button>
+
+      <!-- NOTIFICATIONS -->
+      <button
+        class="relative px-2 py-1 text-xl hover:text-black dark:hover:text-white transition"
+        (mouseenter)="setActiveMenu('notifications')">
+        🔔
+        <span *ngIf="unreadNotifications > 0"
+              class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px]
+                     rounded-full h-4 w-4 flex items-center justify-center">
+          {{ unreadNotifications }}
+        </span>
+      </button>
+
+      <!-- PROFILE -->
+      <button
+        class="px-2 py-1 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800
+               rounded-md transition"
+        (mouseenter)="setActiveMenu('profile')">
+        <img
+          src="https://i.pravatar.cc/40"
+          class="w-8 h-8 rounded-full border border-white/50 shadow-sm"
+          alt="User avatar"
+        />
+        <span>Profile</span>
+      </button>
+
+      <!-- THEME TOGGLE -->
+      <button
+        (click)="toggleTheme()"
+        class="text-xl px-2 py-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+        🌓
+      </button>
+
+    </div>
+  </div>
+
+  <!-- SUBMENU BAR -->
+    <div
+    *ngIf="activeMenu"
+    class="hidden md:block
+            bg-white/20 dark:bg-black/20
+            backdrop-blur-lg
+            border-t border-white/10 dark:border-white/10
+            shadow-[0_4px_20px_rgba(0,0,0,0.15)]
+            transition-all duration-200 ease-out"
+    (mouseenter)="setActiveMenu(activeMenu)"
+    (mouseleave)="clearMenu()">
+
+    <!-- IMPORTANT: the fix is here -->
+    <div class="w-full px-10 py-3">
+
+    <ng-container [ngSwitch]="activeMenu">
+
+    <!-- TEAMS -->
+    <ng-container *ngSwitchCase="'teams'">
+        <div class="flex items-center gap-6 text-sm justify-start">
+        <a routerLink="/teams/list" class="px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-white/10">
+            Team List
+        </a>
+        <a routerLink="/teams/create" class="px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-white/10">
+            Create Team
+        </a>
+        </div>
+    </ng-container>
+
+    <!-- MATCHES -->
+    <ng-container *ngSwitchCase="'matches'">
+        <div class="flex items-center gap-6 text-sm justify-start">
+        <a routerLink="/matches/upcoming" class="px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-white/10">
+            Upcoming Matches
+        </a>
+        <a routerLink="/matches/history" class="px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-white/10">
+            Match History
+        </a>
+        </div>
+    </ng-container>
+
+    <!-- NOTIFICATIONS -->
+    <ng-container *ngSwitchCase="'notifications'">
+        <div class="flex flex-col gap-2 text-sm justify-start">
+        <span class="font-medium">
+            {{ unreadNotifications }} unread notifications
+        </span>
+        <button
+            class="px-3 py-2 w-max rounded-md bg-gray-900 text-white text-xs
+                dark:bg-gray-100 dark:text-gray-900 hover:opacity-90"
+            (click)="markAllAsRead()">
+            Mark all as read
+        </button>
+        </div>
+    </ng-container>
+
+    <!-- PROFILE -->
+    <ng-container *ngSwitchCase="'profile'">
+        <div class="flex flex-col gap-3 text-sm justify-start">
+
+        <!-- User info block -->
+        <div class="flex items-center gap-3">
+            <img src="https://i.pravatar.cc/60" class="w-10 h-10 rounded-full border border-white/20 shadow-sm" />
+            <div>
+            <div class="font-medium">{{ userName }}</div>
+            <div class="text-xs text-gray-500">{{ userRole }}</div>
+            </div>
+        </div>
+
+        <!-- Profile actions -->
+        <div class="flex items-center gap-6 justify-start">
+            <a routerLink="/profile" class="px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-white/10">
+            View Profile
+            </a>
+            <a routerLink="/settings" class="px-3 py-2 rounded-md hover:bg-white/10 dark:hover:bg-white/10">
+            Settings
+            </a>
+            <button class="px-3 py-2 rounded-md text-red-600 hover:bg-red-900/30">
+            Logout
+            </button>
+        </div>
+
+        </div>
+    </ng-container>
+
+    </ng-container>
+    </div>
+  </div>
+</header>
